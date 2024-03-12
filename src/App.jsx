@@ -1,11 +1,14 @@
+import { useState } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import MovieList from "./MoveList";
 import Sidebar from "./Sidebar";
+import { MovieContext } from "./context";
 
 export default function App() {
+  const [cartData, setCartData] = useState([]);
   return (
-    <>
+    <MovieContext.Provider value={{ cartData, setCartData }}>
       <Header />
 
       <main>
@@ -15,6 +18,6 @@ export default function App() {
         </div>
       </main>
       <Footer />
-    </>
+    </MovieContext.Provider>
   );
 }

@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Tag from "../assets/tag.svg";
+import { MovieContext } from "../context";
 import { getImgUrl } from "../utils/cine-utility";
 import MovieDetailsModal from "./MovieDetailsModal";
 import Ratting from "./Ratting";
 export default function MovieCard({ item }) {
   const [showModal, setShowModal] = useState(false);
   const [selectModal, setSelectModal] = useState(null);
+  const { cartData, setCartData } = useContext(MovieContext);
 
   function handleModalOpen(item) {
     setSelectModal(item);
@@ -15,6 +17,21 @@ export default function MovieCard({ item }) {
   function handleCloseModal() {
     setSelectModal(null);
     setShowModal(false);
+  }
+
+  function handleAddToCart(event, movie) {
+    event.stopPropagation();
+
+    //logic for add same data only once
+    const found = cartData.find((item) => {
+      return item.id === movie.id;
+    });
+
+    if (!found) {
+      setCartData([...cartData, movie]);
+    } else {
+      console.error(`This movie ${movie.title} already added`);
+    }
   }
 
   return (
@@ -42,6 +59,7 @@ export default function MovieCard({ item }) {
             <a
               className="bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
               href="#"
+              onClick={(e) => handleAddToCart(e, item)}
             >
               <img src={Tag} alt="" />
               <span>${item.price} | Add to Cart</span>

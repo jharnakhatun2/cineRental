@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Sun from "./assets/icons/sun.svg";
 import Logo from "./assets/logo.svg";
 import Notification from "./assets/ring.svg";
 import Cart from "./assets/shopping-cart.svg";
 import CartDetails from "./components/CartDetails";
+import { MovieContext } from "./context/index.js";
 export default function Header() {
   const [openCart, setOpenCart] = useState(false);
-  const [closeCart, setCloseCart] = useState(null);
+  const { cartData } = useContext(MovieContext);
+
   //Cart Modal add, open, close
   function handleOpenCart() {
     setOpenCart(true);
   }
+
   return (
     <>
       {openCart && <CartDetails onClose={() => setOpenCart(false)} />}
@@ -44,6 +47,11 @@ export default function Header() {
                 onClick={handleOpenCart}
               >
                 <img src={Cart} width={24} height={24} alt="" />
+                {cartData.length > 0 && (
+                  <span className="absolute top-[-16px] left-[20px] bg-[#12cf6f] rounded-full px-2">
+                    {cartData.length}
+                  </span>
+                )}
               </a>
             </li>
           </ul>
