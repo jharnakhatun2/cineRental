@@ -29,6 +29,7 @@ export default function MovieCard({ item }) {
 
     if (!found) {
       setCartData([...cartData, movie]);
+      setShowModal(false);
     } else {
       console.error(`This movie ${movie.title} already added`);
     }
@@ -40,6 +41,7 @@ export default function MovieCard({ item }) {
         <MovieDetailsModal
           movie={selectModal}
           onModalClose={handleCloseModal}
+          onAddToCart={handleAddToCart}
         />
       )}
 
