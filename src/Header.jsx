@@ -1,13 +1,15 @@
 import { useContext, useState } from "react";
+import Moon from "./assets/icons/moon.svg";
 import Sun from "./assets/icons/sun.svg";
 import Logo from "./assets/logo.svg";
 import Notification from "./assets/ring.svg";
 import Cart from "./assets/shopping-cart.svg";
 import CartDetails from "./components/CartDetails";
-import { MovieContext } from "./context/index.js";
+import { MovieContext, ThemeContext } from "./context/index.js";
 export default function Header() {
   const [openCart, setOpenCart] = useState(false);
-  const { cartData } = useContext(MovieContext);
+  const { state } = useContext(MovieContext);
+  const { darkMode, setDarkMode } = useContext(ThemeContext);
 
   //Cart Modal add, open, close
   function handleOpenCart() {
@@ -36,8 +38,14 @@ export default function Header() {
               <a
                 className="bg-primary/20 dark:bg-primary/[7%] rounded-lg backdrop-blur-[2px] p-1 inline-block"
                 href="#"
+                onClick={() => setDarkMode((darkMode) => !darkMode)}
               >
-                <img src={Sun} width={24} height={24} alt="" />
+                <img
+                  src={darkMode ? Sun : Moon}
+                  width={24}
+                  height={24}
+                  alt=""
+                />
               </a>
             </li>
             <li>
@@ -47,9 +55,9 @@ export default function Header() {
                 onClick={handleOpenCart}
               >
                 <img src={Cart} width={24} height={24} alt="" />
-                {cartData.length > 0 && (
+                {state.cartData.length > 0 && (
                   <span className="absolute top-[-16px] left-[20px] bg-[#12cf6f] rounded-full px-2">
-                    {cartData.length}
+                    {state.cartData.length}
                   </span>
                 )}
               </a>

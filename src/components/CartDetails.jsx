@@ -5,15 +5,17 @@ import { MovieContext } from "../context";
 import { getImgUrl } from "../utils/cine-utility";
 
 export default function CartDetails({ onClose }) {
-  const { cartData, setCartData } = useContext(MovieContext);
+  const { state, dispatch } = useContext(MovieContext);
 
-  function handleRemoveMovie(event, movieId) {
+  function handleRemoveMovie(event, movie) {
     event.preventDefault();
-    const filtered = cartData.filter((item) => {
-      return item.id !== movieId;
+
+    dispatch({
+      type: "REMOVE_CART",
+      payload: movie,
     });
-    setCartData([...filtered]);
   }
+
   return (
     <>
       <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm">
@@ -23,10 +25,10 @@ export default function CartDetails({ onClose }) {
               Your Carts
             </h2>
             <div className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14">
-              {cartData.length === 0 ? (
+              {state.cartData.length === 0 ? (
                 <p className="text-2xl">There is no Movie.</p>
               ) : (
-                cartData.map((item) => (
+                state.cartData.map((item) => (
                   <div
                     key={item.id}
                     className="grid grid-cols-[1fr_auto] gap-4"
