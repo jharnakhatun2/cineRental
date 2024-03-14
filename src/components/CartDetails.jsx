@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { toast } from "react-toastify";
 import RemoveIcon from "../assets/delete.svg";
 import Checkout from "../assets/icons/checkout.svg";
 import { MovieContext } from "../context";
@@ -13,6 +14,9 @@ export default function CartDetails({ onClose }) {
     dispatch({
       type: "REMOVE_CART",
       payload: movie,
+    });
+    toast.success(`${movie.title} remove from Cart Successfully!`, {
+      position: "bottom-right",
     });
   }
 
@@ -54,7 +58,7 @@ export default function CartDetails({ onClose }) {
                     <div className="flex justify-between gap-4 items-center">
                       <button
                         className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white"
-                        onClick={(e) => handleRemoveMovie(e, item.id)}
+                        onClick={(e) => handleRemoveMovie(e, item)}
                       >
                         <img className="w-5 h-5" src={RemoveIcon} alt="" />
                         <span className="max-md:hidden">Remove</span>

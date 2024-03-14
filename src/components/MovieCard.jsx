@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { toast } from "react-toastify";
 import Tag from "../assets/tag.svg";
 import { MovieContext } from "../context";
 import { getImgUrl } from "../utils/cine-utility";
@@ -33,9 +34,13 @@ export default function MovieCard({ item }) {
         type: "ADD_TO_CART",
         payload: { ...movie },
       });
-      setShowModal(false);
+      toast.success(`${movie.title} added to Cart Successfully!`, {
+        position: "bottom-right",
+      });
     } else {
-      console.error(`This movie ${movie.title} already added`);
+      toast.error(`${movie.title} has been added to Cart already!`, {
+        position: "bottom-right",
+      });
     }
   }
 
@@ -62,14 +67,14 @@ export default function MovieCard({ item }) {
             <div className="flex items-center space-x-1 mb-5">
               <Ratting value={item.rating} />
             </div>
-            <a
+            <button
               className="bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
               href="#"
               onClick={(e) => handleAddToCart(e, item)}
             >
               <img src={Tag} alt="" />
               <span>${item.price} | Add to Cart</span>
-            </a>
+            </button>
           </figcaption>
         </a>
       </figure>
